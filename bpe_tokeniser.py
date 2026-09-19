@@ -1,13 +1,13 @@
 def get_stats(ids):
     counts={}
     for pair in zip(ids,ids[1:]):
-        counts[pair]=counts.get(pair,0)+1
+        counts[pair]=counts.get(pair,0)+1#counts the no of times a pair appears in the vocab
     return counts
 
 def merge(ids,pair, new_id):
     out,i=[],0
     while i<len(ids):
-        if i<len(ids)-1 and ids[i]==pair[0] and ids[i+1]==pair[1]:
+        if i<len(ids)-1 and ids[i]==pair[0] and ids[i+1]==pair[1]:#if the checks if the consecutive tokens in the ids is a part of the pair
             out.append(new_id)
             i+=2
         else:
@@ -26,7 +26,7 @@ def train_bpe(text,vocab_size):
         stats=get_stats(ids)
         if not stats:
             break
-        pair=max(stats,key=lambda p: (stats[p],-p[0],-p[1]))
+        pair=max(stats,key=lambda p: (stats[p],-p[0],-p[1]))#gets the pair that appears the maximum times amongst the pairs
         new_id=256+i
         ids=merge(ids,pair,new_id)
         merges[pair]=new_id
