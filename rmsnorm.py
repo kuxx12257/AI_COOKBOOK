@@ -12,5 +12,12 @@ class RMSnorm(nn.Module):
   def __init_(self,d_model:int,eps:float=1e-5):#eps is a no very very small to prevent the division from zero
     super().__init__()#constructor for intialisation
     self.eps=eps
-    self.weight=
-    
+    self.weight=nn.Parameter(torch.ones(d_model))
+
+def forward(self,x:torch.Tensor, keepdim=True)->torch.Tensor:
+  dtype=x.dtype
+  x=x.float()
+  rms = x.pow(2).mean(dim=-1, keepdim=True).add(self.eps).rsqrt() 
+  return (x \* rms).to(dtype) \* self.weight
+  
+      
